@@ -114,96 +114,96 @@ button:hover{background:#3ac06d;}
 </div>
 
 <script>
-let drugs=[], ai=[], transports=[];
+document.addEventListener("DOMContentLoaded", function(){
+  let drugs=[], ai=[], transports=[];
 
-// الأدوية
-document.getElementById("addDrugBtn").addEventListener("click", ()=>{
-  let name = document.getElementById("drug").selectedOptions[0].text;
-  let val = document.getElementById("drug").value.split("|");
-  let price = parseInt(val[0]);
-  let serviceVal = parseInt(val[1]);
-  let drugQty = parseInt(document.getElementById("drugQty").value)||0;
-  let animalType = document.getElementById("drugAnimalType").value;
-  let animalQty = parseInt(document.getElementById("animalQty").value)||0;
-  let location = document.getElementById("drugLocation").value;
-  let breeder = document.getElementById("breeder").value;
-  if(!name || !animalType || !location){ alert("اكمل البيانات!"); return;}
-  drugs.push({name,price,serviceVal,drugQty,animalType,animalQty,location,breeder});
-  showDrugs();
-  calculateDrugs();
-});
+  function showDrugs(){ 
+    let html=""; 
+    drugs.forEach((d,i)=>{
+      html+=<div class="saved">${d.breeder?d.breeder+" | ":""}${d.name} × ${d.drugQty} | ${d.animalType} × ${d.animalQty} | ${d.location} <button class="deleteBtn" onclick="removeDrug(${i})">حذف</button></div>;
+    });
+    document.getElementById("drugList").innerHTML=html;
+  }
+  window.removeDrug = function(i){ drugs.splice(i,1); showDrugs(); calculateDrugs(); }
 
-function showDrugs(){
-  let html="";
-  drugs.forEach((d,i)=>{
-    html+=<div class="saved">${d.breeder?d.breeder+" | ":""}${d.name} × ${d.drugQty} | ${d.animalType} × ${d.animalQty} | ${d.location} <button class="deleteBtn" onclick="removeDrug(${i})">حذف</button></div>;
+  function calculateDrugs(){
+    let base=0, admin=0, service=0, cardExit=0, card=500;
+    drugs.forEach(d=>{
+      base += d.price*d.drugQty;
+      service += d.animalQty*d.serviceVal;
+      if(d.location=="خارج المستوصف") cardExit = 1000;
+    });
+    admin = Math.ceil(base/5000)*50;
+    document.getElementById("drugBase").innerText="مجموع الأدوية: "+base;
+    document.getElementById("drugAdmin").innerText="التحميلات الإدارية: "+admin;
+    document.getElementById("drugService").innerText="خدمات الدواء: "+service;
+    document.getElementById("drugCardExit").innerText="البطاقة والخروجيّة: "+(card+cardExit);
+    document.getElementById("drugFinal").innerText="المجموع النهائي للأدوية: "+(base+admin+service+card+cardExit);
+  }
+
+  document.getElementById("addDrugBtn").addEventListener("click", ()=>{
+    let name = document.getElementById("drug").selectedOptions[0].text;
+    let val = document.getElementById("drug").value.split("|");
+    let price = parseInt(val[0]);
+    let serviceVal = parseInt(val[1]);
+    let drugQty = parseInt(document.getElementById("drugQty").value)||0;
+    let animalType = document.getElementById("drugAnimalType").value;
+    let animalQty = parseInt(document.getElementById("animalQty").value)||0;
+    let location = document.getElementById("drugLocation").value;
+    let breeder = document.getElementById("breeder").value;
+    if(!name || !animalType || !location){ alert("اكمل البيانات!"); return;}
+    drugs.push({name,price,serviceVal,drugQty,animalType,animalQty,location,breeder});
+    showDrugs();
+    calculateDrugs();
   });
-  document.getElementById("drugList").innerHTML=html;
-}
-function removeDrug(i){drugs.splice(i,1); showDrugs(); calculateDrugs();}
-function calculateDrugs(){
-  let base=0, admin=0, service=0, cardExit=0;
-  let card=500;
-  drugs.forEach(d=>{
-    base += d.price*d.drugQty;
-    service += d.animalQty*d.serviceVal;
-    if(d.location=="خارج المستوصف") cardExit = 1000;
+
+  // التلقيح
+  window.removeAI = function(){ ai=[]; document.getElementById("aiList").innerHTML=""; document.getElementById("aiFinal").innerText=0; }
+  document.getElementById("addAIbtn").addEventListener("click", ()=>{
+    let qty=parseInt(document.getElementById("aiQty").value)||0;
+    let gloves=parseInt(document.getElementById("gloves").value)||0;
+    let catheter=parseInt(document.getElementById("catheter").value)||0;
+    let rod=parseInt(document.getElementById("rod").value)||0;
+    let nitrogen=parseInt(document.getElementById("nitrogen").value)||0;
+    let locationVal = parseInt(document.getElementById("aiLocation").value)||0;
+    if(qty==0){alert("حدد عدد الأبقار"); return;}
+    ai=[{qty,gloves,catheter,rod,nitrogen,locationVal}];
+    let total = qty*(gloves*46 + catheter*65 + rod*1100 + nitrogen*450) + locationVal;
+    document.getElementById("aiList").innerHTML=<div class="saved">تلقيح ${qty} بقرة <button class="deleteBtn" onclick="removeAI()">حذف</button></div>;
+    document.getElementById("aiFinal").innerText=total;
   });
-  admin = Math.ceil(base/5000)*50;
-  document.getElementById("drugBase").innerText="مجموع الأدوية: "+base;
-  document.getElementById("drugAdmin").innerText="التحميلات الإدارية: "+admin;
-  document.getElementById("drugService").innerText="خدمات الدواء: "+service;
-  document.getElementById("drugCardExit").innerText="البطاقة والخروجيّة: "+(card+cardExit);
-  document.getElementById("drugFinal").innerText="المجموع النهائي للأدوية: "+(base+admin+service+card+cardExit);
-}
 
-// التلقيح
-document.getElementById("addAIbtn").addEventListener("click", ()=>{
-  let qty=parseInt(document.getElementById("aiQty").value)||0;
-  let gloves=parseInt(document.getElementById("gloves").value)||0;
-  let catheter=parseInt(document.getElementById("catheter").value)||0;
-  let rod=parseInt(document.getElementById("rod").value)||0;
-  let nitrogen=parseInt(document.getElementById("nitrogen").value)||0;
-  let locationVal = parseInt(document.getElementById("aiLocation").value)||0;
-  if(qty==0){alert("حدد عدد الأبقار"); return;}
-  ai=[{qty,gloves,catheter,rod,nitrogen,locationVal}];
-  let total = qty*(gloves*46 + catheter*65 + rod*1100 + nitrogen*450) + locationVal;
-  document.getElementById("aiList").innerHTML=<div class="saved">تلقيح ${qty} بقرة <button class="deleteBtn" onclick="removeAI()">حذف</button></div>;
-  document.getElementById("aiFinal").innerText=total;
-});
-function removeAI(){ai=[]; document.getElementById("aiList").innerHTML=""; document.getElementById("aiFinal").innerText=0;}
-
-// النقل
-document.getElementById("addTransBtn").addEventListener("click", ()=>{
-  let sel = document.getElementById("transport");
-  let name = sel.selectedOptions[0].text;
-  let price = parseInt(sel.value);
-  let qty = parseInt(document.getElementById("transQty").value)||0;
-  if(!name || qty==0) { alert("اكمل البيانات!"); return;}
-  transports.push({name,price,qty});
-  showTransports();
-  calculateTransport();
-});
-function showTransports(){
-  let html="";
-  transports.forEach((t,i)=>{
-    html+=<div class="saved">${t.name} × ${t.qty} <button class="deleteBtn" onclick="removeTransport(${i})">حذف</button></div>;
+  // النقل
+  window.removeTransport = function(i){ transports.splice(i,1); showTransports(); calculateTransport(); }
+  function showTransports(){ 
+    let html=""; 
+    transports.forEach((t,i)=>{ html+=<div class="saved">${t.name} × ${t.qty} <button class="deleteBtn" onclick="removeTransport(${i})">حذف</button></div>;});
+    document.getElementById("transList").innerHTML=html;
+  }
+  function calculateTransport(){ 
+    let total=0; 
+    transports.forEach(t=> total += t.price*t.qty + 500);
+    document.getElementById("transFinal").innerText=total;
+  }
+  document.getElementById("addTransBtn").addEventListener("click", ()=>{
+    let sel = document.getElementById("transport");
+    let name = sel.selectedOptions[0].text;
+    let price = parseInt(sel.value);
+    let qty = parseInt(document.getElementById("transQty").value)||0;
+    if(!name || qty==0) { alert("اكمل البيانات!"); return;}
+    transports.push({name,price,qty});
+    showTransports();
+    calculateTransport();
   });
-  document.getElementById("transList").innerHTML=html;
-}
-function removeTransport(i){transports.splice(i,1); showTransports(); calculateTransport();}
-function calculateTransport(){
-  let total=0;
-  transports.forEach(t=> total += t.price*t.qty + 500);
-  document.getElementById("transFinal").innerText=total;
-}
 
-// الحفظ
-document.getElementById("saveBtn").addEventListener("click", ()=>{
-  let saved = JSON.parse(localStorage.getItem("prescriptions")||"[]");
-  saved.push({drugs,ai,transports,date:new Date().toLocaleString()});
-  localStorage.setItem("prescriptions",JSON.stringify(saved));
-  alert("تم حفظ الوصفة ✅");
+  // الحفظ
+  document.getElementById("saveBtn").addEventListener("click", ()=>{
+    let saved = JSON.parse(localStorage.getItem("prescriptions")||"[]");
+    saved.push({drugs,ai,transports,date:new Date().toLocaleString()});
+    localStorage.setItem("prescriptions",JSON.stringify(saved));
+    alert("تم حفظ الوصفة ✅");
+  });
+
 });
 </script>
 </body>
