@@ -67,6 +67,7 @@ input,select{padding:5px;margin:3px;}
 <script>
 let total=0;
 function updateTotal(){document.getElementById("total").innerText=total;}
+
 function addDrug(){
 let name=document.getElementById("drugName").value;
 let qty=parseInt(document.getElementById("drugQty").value);
@@ -78,6 +79,7 @@ document.getElementById("drugList").appendChild(div);
 total+=qty*50;
 updateTotal();
 }
+
 function addAI(){
 let cows=parseInt(document.getElementById("cowCount").value)||0;
 let gloves=parseInt(document.getElementById("gloves").value)||0;
@@ -85,17 +87,27 @@ let catheter=parseInt(document.getElementById("catheter").value)||0;
 let straw=parseInt(document.getElementById("straw").value)||0;
 let nitrogen=parseInt(document.getElementById("nitrogen").value)||0;
 let place=parseInt(document.getElementById("place").value);
+
 if(cows<=0){alert("ادخل عدد الأبقار");return;}
+
+// الكفوف بسعر 46 دينار
 let sum=(gloves*46)+(catheter*65)+(straw*1100)+(nitrogen*450)+(cows*1000);
+
+// التحميلات الإدارية
 let admin=Math.ceil(sum/5000)*50;
+
+// المجموع النهائي
 sum=sum+admin+500+place;
+
 let div=document.createElement("div");
 div.className="item";
 div.innerText="تلقيح "+cows+" بقره = "+sum+" دينار";
 document.getElementById("aiList").appendChild(div);
+
 total+=sum;
 updateTotal();
 }
+
 function addTransport(){
 let type=document.getElementById("transportType").value;
 let qty=parseInt(document.getElementById("transportQty").value);
@@ -109,5 +121,6 @@ total+=sum;
 updateTotal();
 }
 </script>
+
 </body>
 </html>
