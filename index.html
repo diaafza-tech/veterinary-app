@@ -65,7 +65,7 @@ button:hover{background:#3ac06d;}
 <option value="0">داخل المستوصف</option>
 <option value="1000">خارج المستوصف</option>
 </select>
-<button onclick="addDrug()">إضافة الدواء</button>
+<button id="addDrugBtn">إضافة الدواء</button>
 <div id="drugList"></div>
 <div class="total" id="drugBase">مجموع الأدوية: 0</div>
 <div class="total" id="drugAdmin">التحميلات الإدارية: 0</div>
@@ -85,7 +85,7 @@ button:hover{background:#3ac06d;}
 <option value="0">داخل المستوصف</option>
 <option value="1000">خارج المستوصف</option>
 </select>
-<button onclick="calculateAI()">إضافة التلقيح</button>
+<button id="addAIBtn">إضافة التلقيح</button>
 <div id="aiList"></div>
 <div class="total" id="aiBase">مجموع المستلزمات: 0</div>
 <div class="total" id="aiAdmin">التحميلات الإدارية: 0</div>
@@ -102,13 +102,13 @@ button:hover{background:#3ac06d;}
 <option value="1000">القاعة الواحدة</option>
 </select>
 <input type="number" id="transQty" placeholder="عدد النقل (يمكن 0)">
-<button onclick="addTransport()">إضافة النقل</button>
+<button id="addTransportBtn">إضافة النقل</button>
 <div id="transList"></div>
 <div class="total" id="transTotal">مجموع النقل: 0</div>
 </div>
 
 <div class="card">
-<button onclick="savePrescription()">💾 حفظ الوصفة</button>
+<button id="savePrescriptionBtn">💾 حفظ الوصفة</button>
 </div>
 
 <div class="card">
@@ -119,6 +119,12 @@ button:hover{background:#3ac06d;}
 <script>
 let drugs=[], transports=[], aiData=null;
 let drugFinalTotal=0, transportFinalTotal=0, aiFinalTotal=0;
+
+// Event Listeners للزرار
+document.getElementById("addDrugBtn").addEventListener("click", addDrug);
+document.getElementById("addAIBtn").addEventListener("click", calculateAI);
+document.getElementById("addTransportBtn").addEventListener("click", addTransport);
+document.getElementById("savePrescriptionBtn").addEventListener("click", savePrescription);
 
 function addDrug(){
   let name = document.getElementById("drug").selectedOptions[0].text;
@@ -164,7 +170,6 @@ function calculateDrugs(){
   updateGrandTotal();
 }
 
-// التلقيح الاصطناعي
 function calculateAI(){
   let qty = parseInt(document.getElementById("aiQty").value)||0;
   let gloves = parseInt(document.getElementById("gloves").value)||0;
@@ -175,7 +180,7 @@ function calculateAI(){
   if(qty==0) return;
   let perCowItems = gloves*46 + catheter*65 + rod*1100 + nitrogen*450;
   let admin = Math.ceil(perCowItems/5000)*50;
-  let service = 100*qty; // حسب المثال
+  let service = 100*qty;
   let final = perCowItems + admin + service + 500 + location;
   aiData = {qty,perCowItems,admin,service,final,location};
   document.getElementById("aiList").innerHTML=<div class="saved">تلقيح ${qty} بقرة <button class="deleteBtn" onclick="removeAI()">حذف</button></div>;
@@ -195,7 +200,6 @@ aiFinalTotal=0;
 updateGrandTotal();
 }
 
-// النقل
 function addTransport(){
   let name = document.getElementById("transport").selectedOptions[0].text;
   let price = parseInt(document.getElementById("transport").value)||0;
@@ -221,13 +225,11 @@ function calculateTransport(){
   updateGrandTotal();
 }
 
-// المجموع النهائي
 function updateGrandTotal(){
   let grand = drugFinalTotal + aiFinalTotal + transportFinalTotal;
   console.log("المجموع الكلي:",grand);
 }
 
-// حفظ الوصفة وعرضها
 function savePrescription(){
   let data = {drugs,aiData,transports,date:new Date().toLocaleString()};
   let list = document.getElementById("savedList");
