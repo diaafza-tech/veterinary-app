@@ -64,7 +64,7 @@ button:hover{background:#3ac06d;}
 <option value="داخل المستوصف">داخل المستوصف</option>
 <option value="خارج المستوصف">خارج المستوصف</option>
 </select>
-<button onclick="addDrug()">إضافة</button>
+<button id="addDrugBtn">إضافة</button>
 <div id="drugList"></div>
 <div class="total" id="drugBase">مجموع الأدوية: 0</div>
 <div class="total" id="drugAdmin">التحميلات الإدارية: 0</div>
@@ -85,7 +85,7 @@ button:hover{background:#3ac06d;}
 <option value="0">داخل المستوصف</option>
 <option value="1000">خارج المستوصف</option>
 </select>
-<button onclick="addAI()">إضافة تلقيح</button>
+<button id="addAIbtn">إضافة تلقيح</button>
 <div id="aiList"></div>
 <div class="total final" id="aiFinal">المجموع النهائي للتلقيح: 0</div>
 </div>
@@ -99,13 +99,13 @@ button:hover{background:#3ac06d;}
 <option value="1000">القاعة الواحدة</option>
 </select>
 <input type="number" id="transQty" placeholder="العدد" min="0">
-<button onclick="addTransport()">إضافة نقل</button>
+<button id="addTransBtn">إضافة نقل</button>
 <div id="transList"></div>
 <div class="total final" id="transFinal">المجموع النهائي للنقل: 0</div>
 </div>
 
 <div class="card">
-<button onclick="savePrescription()">💾 حفظ الوصفة</button>
+<button id="saveBtn">💾 حفظ الوصفة</button>
 </div>
 
 <div class="card">
@@ -116,7 +116,8 @@ button:hover{background:#3ac06d;}
 <script>
 let drugs=[], ai=[], transports=[];
 
-function addDrug(){
+// الأدوية
+document.getElementById("addDrugBtn").addEventListener("click", ()=>{
   let name = document.getElementById("drug").selectedOptions[0].text;
   let val = document.getElementById("drug").value.split("|");
   let price = parseInt(val[0]);
@@ -126,11 +127,11 @@ function addDrug(){
   let animalQty = parseInt(document.getElementById("animalQty").value)||0;
   let location = document.getElementById("drugLocation").value;
   let breeder = document.getElementById("breeder").value;
-  if(!name || !animalType || isNaN(drugQty) || isNaN(animalQty) || !location){ alert("اكمل البيانات!"); return;}
+  if(!name || !animalType || !location){ alert("اكمل البيانات!"); return;}
   drugs.push({name,price,serviceVal,drugQty,animalType,animalQty,location,breeder});
   showDrugs();
   calculateDrugs();
-}
+});
 
 function showDrugs(){
   let html="";
@@ -139,9 +140,7 @@ function showDrugs(){
   });
   document.getElementById("drugList").innerHTML=html;
 }
-
 function removeDrug(i){drugs.splice(i,1); showDrugs(); calculateDrugs();}
-
 function calculateDrugs(){
   let base=0, admin=0, service=0, cardExit=0;
   let card=500;
@@ -158,7 +157,8 @@ function calculateDrugs(){
   document.getElementById("drugFinal").innerText="المجموع النهائي للأدوية: "+(base+admin+service+card+cardExit);
 }
 
-function addAI(){
+// التلقيح
+document.getElementById("addAIbtn").addEventListener("click", ()=>{
   let qty=parseInt(document.getElementById("aiQty").value)||0;
   let gloves=parseInt(document.getElementById("gloves").value)||0;
   let catheter=parseInt(document.getElementById("catheter").value)||0;
@@ -170,11 +170,11 @@ function addAI(){
   let total = qty*(gloves*46 + catheter*65 + rod*1100 + nitrogen*450) + locationVal;
   document.getElementById("aiList").innerHTML=<div class="saved">تلقيح ${qty} بقرة <button class="deleteBtn" onclick="removeAI()">حذف</button></div>;
   document.getElementById("aiFinal").innerText=total;
-}
-
+});
 function removeAI(){ai=[]; document.getElementById("aiList").innerHTML=""; document.getElementById("aiFinal").innerText=0;}
 
-function addTransport(){
+// النقل
+document.getElementById("addTransBtn").addEventListener("click", ()=>{
   let sel = document.getElementById("transport");
   let name = sel.selectedOptions[0].text;
   let price = parseInt(sel.value);
@@ -183,8 +183,7 @@ function addTransport(){
   transports.push({name,price,qty});
   showTransports();
   calculateTransport();
-}
-
+});
 function showTransports(){
   let html="";
   transports.forEach((t,i)=>{
@@ -192,21 +191,20 @@ function showTransports(){
   });
   document.getElementById("transList").innerHTML=html;
 }
-
 function removeTransport(i){transports.splice(i,1); showTransports(); calculateTransport();}
-
 function calculateTransport(){
   let total=0;
   transports.forEach(t=> total += t.price*t.qty + 500);
   document.getElementById("transFinal").innerText=total;
 }
 
-function savePrescription(){
+// الحفظ
+document.getElementById("saveBtn").addEventListener("click", ()=>{
   let saved = JSON.parse(localStorage.getItem("prescriptions")||"[]");
   saved.push({drugs,ai,transports,date:new Date().toLocaleString()});
   localStorage.setItem("prescriptions",JSON.stringify(saved));
   alert("تم حفظ الوصفة ✅");
-}
+});
 </script>
 </body>
 </html>
