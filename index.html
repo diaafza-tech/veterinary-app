@@ -25,6 +25,7 @@ button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border
 الدكتور ضياء حسين
 </header>
 
+<!-- معلومات المربي والحيوان -->
 <div class="card">
 <h2>معلومات المربي والحيوان</h2>
 <input type="text" id="breeder" placeholder="اسم المربي">
@@ -40,6 +41,7 @@ button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border
 <input type="text" id="diagnosis" placeholder="التشخيص">
 </div>
 
+<!-- الأدوية -->
 <div class="card">
 <h2>الأدوية</h2>
 <select id="drug">
@@ -79,6 +81,7 @@ button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border
 <div class="total final" id="drugFinal">المجموع النهائي للأدوية: 0</div>
 </div>
 
+<!-- التلقيح الاصطناعي -->
 <div class="card">
 <h2>التلقيح الاصطناعي (أبقار)</h2>
 <input type="number" id="aiQty" placeholder="عدد الأبقار">
@@ -100,6 +103,7 @@ button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border
 <div class="total final" id="aiFinal">المجموع النهائي للتلقيح: 0</div>
 </div>
 
+<!-- النقل -->
 <div class="card">
 <h2>النقل</h2>
 <select id="transport">
@@ -114,10 +118,12 @@ button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border
 <div class="total" id="transTotal">مجموع النقل: 0</div>
 </div>
 
+<!-- حفظ الوصفة -->
 <div class="card">
 <button onclick="savePrescription()">💾 حفظ الوصفة</button>
 </div>
 
+<!-- الوصفات المحفوظة -->
 <div class="card">
 <h2>الوصفات المحفوظة</h2>
 <button onclick="clearAll()" style="background:red;color:white;padding:8px;border:none;border-radius:6px;margin-bottom:5px;cursor:pointer">حذف جميع الوصفات</button>
@@ -126,7 +132,7 @@ button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-// كل الدوال تعمل مباشرة عند الضغط على الأزرار
+// جميع الوظائف جاهزة للإضافة
 let drugs=[], transports=[], aiData=null;
 let drugFinalTotal=0, transportFinalTotal=0, aiFinalTotal=0;
 
