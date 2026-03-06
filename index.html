@@ -71,7 +71,7 @@ button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border
 <option value="9850|625">بارفكوين أغنام</option>
 </select>
 <input type="number" id="drugQty" placeholder="العدد">
-<button onclick="addDrug()">إضافة</button>
+<button id="addDrugBtn">إضافة</button>
 <div id="drugList"></div>
 <div class="total" id="drugBase">مجموع الأدوية: 0</div>
 <div class="total" id="drugAdmin">التحميلات الإدارية: 0</div>
@@ -91,7 +91,7 @@ button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border
 <option value="0">داخل المستوصف</option>
 <option value="1000">خارج المستوصف</option>
 </select>
-<button onclick="calculateAI()">إضافة تلقيح</button>
+<button id="addAIBtn">إضافة تلقيح</button>
 <div id="aiList"></div>
 <div class="total" id="aiBase">مجموع المستلزمات: 0</div>
 <div class="total" id="aiAdmin">التحميلات الإدارية: 0</div>
@@ -109,88 +109,113 @@ button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border
 <option value="1000">القاعة الواحدة</option>
 </select>
 <input type="number" id="transQty" placeholder="العدد">
-<button onclick="addTransport()">إضافة نقل</button>
+<button id="addTransportBtn">إضافة نقل</button>
 <div id="transList"></div>
 <div class="total" id="transTotal">مجموع النقل: 0</div>
 </div>
 
 <div class="card">
-<button onclick="savePrescription()">💾 حفظ الوصفة</button>
+<button id="saveBtn">💾 حفظ الوصفة</button>
 </div>
 
 <div class="card">
 <h2>الوصفات المحفوظة</h2>
-<button onclick="clearAll()" style="background:red;color:white;padding:8px;border:none;border-radius:6px;margin-bottom:5px;cursor:pointer">حذف جميع الوصفات</button>
+<button id="clearBtn" style="background:red;color:white;padding:8px;border:none;border-radius:6px;margin-bottom:5px;cursor:pointer">حذف جميع الوصفات</button>
 <div id="savedList"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
+document.addEventListener("DOMContentLoaded", function(){
+
 let drugs=[], transports=[], aiData=null;
 let drugFinalTotal=0, transportFinalTotal=0, aiFinalTotal=0;
 
+const drugSelect = document.getElementById("drug");
+const drugQty = document.getElementById("drugQty");
+const drugList = document.getElementById("drugList");
+
+const transSelect = document.getElementById("transport");
+const transQty = document.getElementById("transQty");
+const transList = document.getElementById("transList");
+
+const aiQty = document.getElementById("aiQty");
+const gloves = document.getElementById("gloves");
+const catheter = document.getElementById("catheter");
+const rod = document.getElementById("rod");
+const nitrogen = document.getElementById("nitrogen");
+const aiLocation = document.getElementById("aiLocation");
+const aiList = document.getElementById("aiList");
+
+document.getElementById("addDrugBtn").addEventListener("click", addDrug);
+document.getElementById("addTransportBtn").addEventListener("click", addTransport);
+document.getElementById("addAIBtn").addEventListener("click", calculateAI);
+document.getElementById("saveBtn").addEventListener("click", savePrescription);
+document.getElementById("clearBtn").addEventListener("click", clearAll);
+
 function addDrug(){
-  let select=document.getElementById("drug");
-  let val=select.value;
-  let name=select.options[select.selectedIndex].text;
-  let qty=parseInt(document.getElementById("drugQty").value);
+  let val=drugSelect.value;
+  let name=drugSelect.options[drugSelect.selectedIndex].text;
+  let qty=parseInt(drugQty.value);
   if(!val || !qty) return;
-  let [price,service] = val.split("|");
-  price=parseInt(price); service=parseInt(service);
-  drugs.push({name:name,price,service,qty});
-  document.getElementById("drugQty").value="";
+  let [price,service] = val.split("|").map(Number);
+  drugs.push({name,price,service,qty});
+  drugQty.value="";
   showDrugs();
   calculate();
 }
+
 function showDrugs(){
-  let html="";
-  drugs.forEach((d,index)=>{
-    html+=`<div style="background:#eee;padding:8px;margin:5px 0;border-radius:8px">
-    ${d.name} × ${d.qty} <button onclick="removeDrug(${index})" class="deleteBtn">حذف</button>
-    </div>`;
+  drugList.innerHTML="";
+  drugs.forEach((d,i)=>{
+    let div = document.createElement("div");
+    div.className="saved";
+    div.innerHTML=${d.name} × ${d.qty} <button class="deleteBtn" onclick="removeDrug(${i})">حذف</button>;
+    drugList.appendChild(div);
   });
-  document.getElementById("drugList").innerHTML=html;
 }
-function removeDrug(index){drugs.splice(index,1); showDrugs(); calculate();}
+
+window.removeDrug = function(i){ drugs.splice(i,1); showDrugs(); calculate(); }
 
 function addTransport(){
-  let select=document.getElementById("transport");
-  let val=select.value;
-  let name=select.options[select.selectedIndex].text;
-  let qty=parseInt(document.getElementById("transQty").value);
+  let val=parseInt(transSelect.value);
+  let name=transSelect.options[transSelect.selectedIndex].text;
+  let qty=parseInt(transQty.value);
   if(!val || !qty) return;
-  transports.push({name:name,price:parseInt(val),qty});
-  document.getElementById("transQty").value="";
+  transports.push({name,price:val,qty});
+  transQty.value="";
   showTransport();
   calculate();
 }
+
 function showTransport(){
-  let html="";
-  transports.forEach((t,index)=>{
-    html+=`<div style="background:#eee;padding:8px;margin:5px 0;border-radius:8px">
-    ${t.name} × ${t.qty} <button onclick="removeTransport(${index})" class="deleteBtn">حذف</button>
-    </div>`;
+  transList.innerHTML="";
+  transports.forEach((t,i)=>{
+    let div=document.createElement("div");
+    div.className="saved";
+    div.innerHTML=${t.name} × ${t.qty} <button class="deleteBtn" onclick="removeTransport(${i})">حذف</button>;
+    transList.appendChild(div);
   });
-  document.getElementById("transList").innerHTML=html;
 }
-function removeTransport(index){transports.splice(index,1); showTransport(); calculate();}
+
+window.removeTransport=function(i){ transports.splice(i,1); showTransport(); calculate(); }
 
 function calculateAI(){
-  let qty=parseInt(document.getElementById("aiQty").value);
-  let service=parseInt(document.getElementById("aiLocation").value);
-  let gloves=parseInt(document.getElementById("gloves").value)||0;
-  let catheter=parseInt(document.getElementById("catheter").value)||0;
-  let rod=parseInt(document.getElementById("rod").value)||0;
-  let nitrogen=parseInt(document.getElementById("nitrogen").value)||0;
+  let qty=parseInt(aiQty.value);
+  let service=parseInt(aiLocation.value);
+  let g=parseInt(gloves.value)||0;
+  let c=parseInt(catheter.value)||0;
+  let r=parseInt(rod.value)||0;
+  let n=parseInt(nitrogen.value)||0;
   if(!qty || isNaN(service)) return;
-  let perCowItems=(gloves*46)+(catheter*65)+(rod*1100)+(nitrogen*450);
-  let admin=Math.ceil(perCowItems/5000)*50;
+  let perCow=(g*46)+(c*65)+(r*1100)+(n*450);
+  let admin=Math.ceil(perCow/5000)*50;
   let cowCost=1000*qty;
   let card=500;
-  let final=perCowItems+admin+cowCost+card+service;
-  aiData={qty,perCowItems,admin,cowCost,card,service,final};
-  document.getElementById("aiList").innerHTML=<div style="background:#eee;padding:8px;margin:5px 0;border-radius:8px">تلقيح ${qty} بقرة <button onclick="removeAI()" class="deleteBtn">حذف</button></div>;
-  document.getElementById("aiBase").innerText="مجموع المستلزمات: "+perCowItems;
+  let final=perCow+admin+cowCost+card+service;
+  aiData={qty,perCow,admin,cowCost,card,service,final};
+  aiList.innerHTML=<div class="saved">تلقيح ${qty} بقرة <button class="deleteBtn" onclick="removeAI()">حذف</button></div>;
+  document.getElementById("aiBase").innerText="مجموع المستلزمات: "+perCow;
   document.getElementById("aiAdmin").innerText="التحميلات الإدارية: "+admin;
   document.getElementById("aiCowCost").innerText="أجور الأبقار: "+cowCost;
   document.getElementById("aiService").innerText="الخدمات: "+service;
@@ -198,9 +223,10 @@ function calculateAI(){
   aiFinalTotal=final;
   updateGrandTotal();
 }
-function removeAI(){
+
+window.removeAI=function(){
   aiData=null;
-  document.getElementById("aiList").innerHTML="";
+  aiList.innerHTML="";
   document.getElementById("aiBase").innerText="مجموع المستلزمات: 0";
   document.getElementById("aiAdmin").innerText="التحميلات الإدارية: 0";
   document.getElementById("aiCowCost").innerText="أجور الأبقار: 0";
@@ -211,8 +237,8 @@ function removeAI(){
 }
 
 function calculate(){
-  let base=0, serviceTotal=0, transportTotal=0;
-  drugs.forEach(d=>{base+=d.price*d.qty; serviceTotal+=d.service*d.qty;});
+  let base=0,serviceTotal=0,transportTotal=0;
+  drugs.forEach(d=>{ base+=d.price*d.qty; serviceTotal+=d.service*d.qty; });
   let admin=Math.ceil(base/5000)*50;
   let finalDrug=base+serviceTotal+admin+1500;
   drugFinalTotal=finalDrug;
@@ -220,14 +246,16 @@ function calculate(){
   document.getElementById("drugAdmin").innerText="التحميلات الإدارية: "+admin;
   document.getElementById("drugService").innerText="خدمات الدواء: "+serviceTotal;
   document.getElementById("drugFinal").innerText="المجموع النهائي للأدوية: "+finalDrug;
-  transports.forEach(t=>{transportTotal+=t.price*t.qty+500;});
+
+  transports.forEach(t=>{ transportTotal+=t.price*t.qty+500; });
   document.getElementById("transTotal").innerText="مجموع النقل: "+transportTotal;
   transportFinalTotal=transportTotal;
+
   updateGrandTotal();
 }
 
 function updateGrandTotal(){
-  let grand = drugFinalTotal + transportFinalTotal + aiFinalTotal;
+  let grand=drugFinalTotal+transportFinalTotal+aiFinalTotal;
   console.log("المجموع الكلي:",grand);
 }
 
@@ -251,47 +279,57 @@ function savePrescription(){
 
 function showSaved(){
   let saved=JSON.parse(localStorage.getItem("prescriptions")||"[]");
-  let html="";
-  saved.forEach((s,index)=>{
-    html+=`<div class="saved">
-    <b>${s.breeder}</b> - ${s.animal} - ${s.qty} حيوان<br>
+  let savedList=document.getElementById("savedList");
+  savedList.innerHTML="";
+  saved.forEach((s,i)=>{
+    let div=document.createElement("div");
+    div.className="saved";
+    div.innerHTML=`<b>${s.breeder}</b> - ${s.animal} - ${s.qty} حيوان<br>
     تشخيص: ${s.diagnosis}<br>
     ${s.totalDrug}<br>
     ${s.totalTransport}<br>
     ${s.aiTotal}<br>
     ${s.date}
-    <button class="deleteBtn" onclick="deleteSaved(${index})">حذف</button>
-    </div>`;
+    <button class="deleteBtn" onclick="deleteSaved(${i})">حذف</button>`;
+    savedList.appendChild(div);
   });
-  document.getElementById("savedList").innerHTML=html;
 }
 
-function deleteSaved(index){
+window.deleteSaved=function(i){
   let saved=JSON.parse(localStorage.getItem("prescriptions")||"[]");
-  saved.splice(index,1);
+  saved.splice(i,1);
   localStorage.setItem("prescriptions",JSON.stringify(saved));
   showSaved();
 }
-function clearAll(){if(confirm("هل تريد حذف جميع الوصفات؟")){localStorage.removeItem("prescriptions"); showSaved();}}
+
+function clearAll(){
+  if(confirm("هل تريد حذف جميع الوصفات؟")){
+    localStorage.removeItem("prescriptions");
+    showSaved();
+  }
+}
 
 function generatePDF(data){
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   doc.setFontSize(16);
-  doc.text("المستوصف البيطري في السدير", 105, 15, null, null, "center");
+  doc.text("المستوصف البيطري في السدير",105,15,null,null,"center");
   doc.setFontSize(12);
-  doc.text(اسم المربي: ${data.breeder}, 10, 30);
-  doc.text(نوع الحيوان: ${data.animal}, 10, 38);
-  doc.text(عدد الحيوان: ${data.qty}, 10, 46);
-  doc.text(التشخيص: ${data.diagnosis}, 10, 54);
-  doc.text(${data.totalDrug}, 10, 62);
-  doc.text(${data.totalTransport}, 10, 70);
-  doc.text(${data.aiTotal}, 10, 78);
-  doc.text(تاريخ: ${data.date}, 10, 86);
+  doc.text(اسم المربي: ${data.breeder},10,30);
+  doc.text(نوع الحيوان: ${data.animal},10,38);
+  doc.text(عدد الحيوان: ${data.qty},10,46);
+  doc.text(التشخيص: ${data.diagnosis},10,54);
+  doc.text(${data.totalDrug},10,62);
+  doc.text(${data.totalTransport},10,70);
+  doc.text(${data.aiTotal},10,78);
+  doc.text(تاريخ: ${data.date},10,86);
   doc.save(الوصفة_${data.breeder}.pdf);
 }
 
 showSaved();
+
+});
 </script>
+
 </body>
 </html>
