@@ -3,52 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <title>المستوصف البيطري</title>
-
 <style>
-body{
-font-family:Arial;
-background:#f2f2f2;
-padding:20px;
-direction:rtl;
-}
-
-.box{
-background:white;
-padding:15px;
-margin-bottom:20px;
-border-radius:10px;
-box-shadow:0 0 5px #ccc;
-}
-
-button{
-padding:6px 12px;
-cursor:pointer;
-}
-
-input,select{
-padding:5px;
-margin:3px;
-}
-
-.item{
-padding:5px;
-border-bottom:1px solid #ddd;
-}
-
-.total{
-font-size:18px;
-font-weight:bold;
-}
+body{font-family:Arial;background:#f2f2f2;padding:20px;direction:rtl;}
+.box{background:white;padding:15px;margin-bottom:20px;border-radius:10px;box-shadow:0 0 5px #ccc;}
+button{padding:6px 12px;cursor:pointer;}
+input,select{padding:5px;margin:3px;}
+.item{padding:5px;border-bottom:1px solid #ddd;}
+.total{font-size:18px;font-weight:bold;}
 </style>
 </head>
-
 <body>
 
 <h1>نظام المستوصف البيطري</h1>
 
 <div class="box">
 <h2>الأدوية</h2>
-
 <select id="drugName">
 <option value="">اختر الدواء</option>
 <option>اوكسي</option>
@@ -58,161 +27,87 @@ font-weight:bold;
 <option>خافض</option>
 <option>تجريع</option>
 </select>
-
 <input type="number" id="drugQty" placeholder="العدد">
-
 <button onclick="addDrug()">إضافة</button>
-
 <div id="drugList"></div>
 </div>
 
-
 <div class="box">
 <h2>التلقيح الاصطناعي</h2>
-
-عدد الأبقار  
-<input type="number" id="cowCount">
-
-<br>
-
-الكفوف  
-<input type="number" id="gloves" value="0">
-
-القسطرة  
-<input type="number" id="catheter" value="0">
-
-القصبة  
-<input type="number" id="straw" value="0">
-
-نايتروجين  
-<input type="number" id="nitrogen" value="0">
-
-<br>
-
+عدد الأبقار <input type="number" id="cowCount"><br>
+الكفوف <input type="number" id="gloves" value="0">
+القسطرة <input type="number" id="catheter" value="0">
+القصبة <input type="number" id="straw" value="0">
+نايتروجين <input type="number" id="nitrogen" value="0"><br>
 <select id="place">
 <option value="0">داخل المستوصف</option>
 <option value="1000">خارج المستوصف</option>
 </select>
-
 <button onclick="addAI()">إضافة تلقيح</button>
-
 <div id="aiList"></div>
 </div>
 
-
 <div class="box">
 <h2>النقل</h2>
-
 نوع النقل
 <select id="transportType">
 <option value="">اختر</option>
 <option>نقل ابقار</option>
 <option>نقل اغنام</option>
 </select>
-
-عدد الحيوانات
-<input type="number" id="transportQty">
-
+عدد الحيوانات <input type="number" id="transportQty">
 <button onclick="addTransport()">إضافة</button>
-
 <div id="transportList"></div>
 </div>
-
 
 <div class="box total">
 المجموع الكلي : <span id="total">0</span> دينار
 </div>
 
-
 <script>
-
 let total=0;
-
-function updateTotal(){
-document.getElementById("total").innerText=total;
-}
-
+function updateTotal(){document.getElementById("total").innerText=total;}
 function addDrug(){
-
 let name=document.getElementById("drugName").value;
 let qty=parseInt(document.getElementById("drugQty").value);
-
 if(!name || !qty){alert("اختر الدواء والعدد");return;}
-
 let div=document.createElement("div");
 div.className="item";
 div.innerText=name+" - عدد "+qty;
-
 document.getElementById("drugList").appendChild(div);
-
 total+=qty*50;
-
 updateTotal();
-
 }
-
 function addAI(){
-
 let cows=parseInt(document.getElementById("cowCount").value)||0;
-
 let gloves=parseInt(document.getElementById("gloves").value)||0;
 let catheter=parseInt(document.getElementById("catheter").value)||0;
 let straw=parseInt(document.getElementById("straw").value)||0;
 let nitrogen=parseInt(document.getElementById("nitrogen").value)||0;
-
 let place=parseInt(document.getElementById("place").value);
-
 if(cows<=0){alert("ادخل عدد الأبقار");return;}
-
-let sum=
-
-(gloves*46)+
-(catheter*65)+
-(straw*1100)+
-(nitrogen*450)+
-(cows*1000);
-
+let sum=(gloves*46)+(catheter*65)+(straw*1100)+(nitrogen*450)+(cows*1000);
 let admin=Math.ceil(sum/5000)*50;
-
 sum=sum+admin+500+place;
-
 let div=document.createElement("div");
-
 div.className="item";
-
 div.innerText="تلقيح "+cows+" بقره = "+sum+" دينار";
-
 document.getElementById("aiList").appendChild(div);
-
 total+=sum;
-
 updateTotal();
-
 }
-
 function addTransport(){
-
 let type=document.getElementById("transportType").value;
 let qty=parseInt(document.getElementById("transportQty").value);
-
 if(!type || !qty){alert("اختر النقل والعدد");return;}
-
 let sum=qty*200;
-
 let div=document.createElement("div");
 div.className="item";
-
 div.innerText=type+" - عدد "+qty+" = "+sum+" دينار";
-
 document.getElementById("transportList").appendChild(div);
-
 total+=sum;
-
 updateTotal();
-
 }
-
 </script>
-
 </body>
 </html>
