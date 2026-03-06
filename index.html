@@ -2,125 +2,216 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المستوصف البيطري في السدير</title>
+<title>المستوصف البيطري</title>
+
 <style>
-body{font-family:Arial;margin:0;background:#f2f2f2;direction:rtl}
-header{background:#1e8449;color:#fff;text-align:center;padding:20px;font-size:22px}
-.card{background:#fff;margin:15px;padding:15px;border-radius:10px;box-shadow:0 3px 6px rgba(0,0,0,0.1)}
-h2{color:#1e8449}
-input,select{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ccc}
-button{width:100%;padding:12px;background:#1e8449;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;margin-top:5px}
-.total{background:#1e8449;color:#fff;text-align:center;padding:10px;border-radius:8px;margin-top:10px}
-.final{background:#145a32;font-weight:bold;font-size:18px}
-.saved{background:#eef;padding:10px;margin:5px 0;border-radius:8px}
-.deleteBtn{background:red;color:white;border:none;padding:5px 10px;border-radius:6px;float:left;cursor:pointer;margin-left:5px}
+body{
+font-family:Arial;
+background:#f2f2f2;
+padding:20px;
+direction:rtl;
+}
+
+.box{
+background:white;
+padding:15px;
+margin-bottom:20px;
+border-radius:10px;
+box-shadow:0 0 5px #ccc;
+}
+
+button{
+padding:6px 12px;
+cursor:pointer;
+}
+
+input,select{
+padding:5px;
+margin:3px;
+}
+
+.item{
+padding:5px;
+border-bottom:1px solid #ddd;
+}
+
+.total{
+font-size:18px;
+font-weight:bold;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-أهلآ بكم في المستوصف البيطري في السدير<br>
-اعداد البرنامج<br>
-الدكتور ضياء حسين
-</header>
+<h1>نظام المستوصف البيطري</h1>
 
-<div class="card">
-<h2>معلومات المربي والحيوان</h2>
-<input type="text" id="breeder" placeholder="اسم المربي">
-<select id="animalType">
-<option value="">نوع الحيوان</option>
-<option>أبقار</option>
-<option>جاموس</option>
-<option>أغنام</option>
-<option>ماعز</option>
-<option>قاعة</option>
-</select>
-<input type="number" id="animalQty" placeholder="عدد الحيوان">
-<input type="text" id="diagnosis" placeholder="التشخيص">
-</div>
-
-<div class="card">
+<div class="box">
 <h2>الأدوية</h2>
-<select id="drug">
+
+<select id="drugName">
 <option value="">اختر الدواء</option>
-<option value="3750|250">جنتامايسين</option>
-<option value="3700|250">تايلوسين</option>
-<option value="2725|250">أوكسي</option>
-<option value="1900|250">إنروفلوكساسين</option>
-<option value="2250|250">خافض بدون مضاد</option>
-<option value="2250|0">خافض مع مضاد</option>
-<option value="2500|250">بلوك أملاح</option>
-<option value="4250|250">كالسيوم</option>
-<option value="2300|500">سبري جروح</option>
-<option value="1650|150">مضاد تخمه</option>
-<option value="2300|150">مضاد نفاخ</option>
-<option value="1250|250">تيوب ضرع</option>
-<option value="1650|150">كبريت</option>
-<option value="100|0">سرنج 10 مل</option>
-<option value="145|0">سرنج 20 مل</option>
-<option value="1500|1000">ايفرمكتين أبقار وجاموس</option>
-<option value="9500|1000">باور أون أبقار وجاموس</option>
-<option value="4750|500">نص باور أون أبقار وجاموس</option>
-<option value="7750|400">تجريع أبقار وجاموس</option>
-<option value="9850|250">بارفكوين أبقار وجاموس</option>
-<option value="1500|1250">ايفرمكتين أغنام</option>
-<option value="9500|2500">باور أون أغنام</option>
-<option value="4750|1250">نص باور أون أغنام</option>
-<option value="7750|500">تجريع أغنام</option>
-<option value="9850|625">بارفكوين أغنام</option>
+<option>اوكسي</option>
+<option>ايفرمكتين</option>
+<option>تايلوسين</option>
+<option>بارفكوين</option>
+<option>خافض</option>
+<option>تجريع</option>
 </select>
+
 <input type="number" id="drugQty" placeholder="العدد">
+
 <button onclick="addDrug()">إضافة</button>
+
 <div id="drugList"></div>
-<div class="total" id="drugBase">مجموع الأدوية: 0</div>
-<div class="total" id="drugAdmin">التحميلات الإدارية: 0</div>
-<div class="total" id="drugService">خدمات الدواء: 0</div>
-<div class="total final" id="drugFinal">المجموع النهائي للأدوية: 0</div>
 </div>
 
-<div class="card">
-<h2>التلقيح الاصطناعي (أبقار)</h2>
-<input type="number" id="aiQty" placeholder="عدد الأبقار">
-<label>عدد الكفوف</label><input type="number" id="gloves" placeholder="عدد الكفوف">
-<label>عدد القسطرة</label><input type="number" id="catheter" placeholder="عدد القسطرة">
-<label>عدد القصبة</label><input type="number" id="rod" placeholder="عدد القصبة">
-<label>كمية النايتروجين</label><input type="number" id="nitrogen" placeholder="كمية النايتروجين">
-<select id="aiLocation">
-<option value="">اختر الموقع</option>
-<option value="0">داخل المستوصف</option><option value="1000">خارج المستوصف</option>
+
+<div class="box">
+<h2>التلقيح الاصطناعي</h2>
+
+عدد الأبقار  
+<input type="number" id="cowCount">
+
+<br>
+
+الكفوف  
+<input type="number" id="gloves" value="0">
+
+القسطرة  
+<input type="number" id="catheter" value="0">
+
+القصبة  
+<input type="number" id="straw" value="0">
+
+نايتروجين  
+<input type="number" id="nitrogen" value="0">
+
+<br>
+
+<select id="place">
+<option value="0">داخل المستوصف</option>
+<option value="1000">خارج المستوصف</option>
 </select>
-<button onclick="calculateAI()">إضافة تلقيح</button>
+
+<button onclick="addAI()">إضافة تلقيح</button>
+
 <div id="aiList"></div>
-<div class="total" id="aiBase">مجموع المستلزمات: 0</div>
-<div class="total" id="aiAdmin">التحميلات الإدارية: 0</div>
-<div class="total" id="aiCowCost">أجور الأبقار: 0</div>
-<div class="total" id="aiService">الخدمات: 0</div>
-<div class="total final" id="aiFinal">المجموع النهائي للتلقيح: 0</div>
 </div>
 
-<div class="card">
+
+<div class="box">
 <h2>النقل</h2>
-<select id="transport">
-<option value="">اختر النوع</option>
-<option value="2000">أبقار وجاموس</option>
-<option value="1000">أغنام وماعز</option>
-<option value="1000">القاعة الواحدة</option>
+
+نوع النقل
+<select id="transportType">
+<option value="">اختر</option>
+<option>نقل ابقار</option>
+<option>نقل اغنام</option>
 </select>
-<input type="number" id="transQty" placeholder="العدد">
-<button onclick="addTransport()">إضافة نقل</button>
-<div id="transList"></div>
-<div class="total" id="transTotal">مجموع النقل: 0</div>
+
+عدد الحيوانات
+<input type="number" id="transportQty">
+
+<button onclick="addTransport()">إضافة</button>
+
+<div id="transportList"></div>
 </div>
 
-<div class="card">
-<button onclick="clearAll()" style="background:red;color:white;padding:8px;border:none;border-radius:6px;margin-bottom:5px;cursor:pointer">حذف جميع الوصفات</button>
-<div id="savedList"></div>
+
+<div class="box total">
+المجموع الكلي : <span id="total">0</span> دينار
 </div>
+
 
 <script>
-// ضع هنا جميع الدوال: addDrug, calculateAI, addTransport, clearAll, إلخ.
-// الكود جاهز للتعديل حسب احتياجاتك.
+
+let total=0;
+
+function updateTotal(){
+document.getElementById("total").innerText=total;
+}
+
+function addDrug(){
+
+let name=document.getElementById("drugName").value;
+let qty=parseInt(document.getElementById("drugQty").value);
+
+if(!name || !qty){alert("اختر الدواء والعدد");return;}
+
+let div=document.createElement("div");
+div.className="item";
+div.innerText=name+" - عدد "+qty;
+
+document.getElementById("drugList").appendChild(div);
+
+total+=qty*50;
+
+updateTotal();
+
+}
+
+function addAI(){
+
+let cows=parseInt(document.getElementById("cowCount").value)||0;
+
+let gloves=parseInt(document.getElementById("gloves").value)||0;
+let catheter=parseInt(document.getElementById("catheter").value)||0;
+let straw=parseInt(document.getElementById("straw").value)||0;
+let nitrogen=parseInt(document.getElementById("nitrogen").value)||0;
+
+let place=parseInt(document.getElementById("place").value);
+
+if(cows<=0){alert("ادخل عدد الأبقار");return;}
+
+let sum=
+
+(gloves*46)+
+(catheter*65)+
+(straw*1100)+
+(nitrogen*450)+
+(cows*1000);
+
+let admin=Math.ceil(sum/5000)*50;
+
+sum=sum+admin+500+place;
+
+let div=document.createElement("div");
+
+div.className="item";
+
+div.innerText="تلقيح "+cows+" بقره = "+sum+" دينار";
+
+document.getElementById("aiList").appendChild(div);
+
+total+=sum;
+
+updateTotal();
+
+}
+
+function addTransport(){
+
+let type=document.getElementById("transportType").value;
+let qty=parseInt(document.getElementById("transportQty").value);
+
+if(!type || !qty){alert("اختر النقل والعدد");return;}
+
+let sum=qty*200;
+
+let div=document.createElement("div");
+div.className="item";
+
+div.innerText=type+" - عدد "+qty+" = "+sum+" دينار";
+
+document.getElementById("transportList").appendChild(div);
+
+total+=sum;
+
+updateTotal();
+
+}
+
 </script>
 
 </body>
