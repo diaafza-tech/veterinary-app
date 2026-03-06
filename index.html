@@ -8,8 +8,8 @@
 body{font-family:Arial;margin:0;background:#e8f0f2;direction:rtl}
 header{background:#116530;color:#fff;text-align:center;padding:20px;font-size:22px;box-shadow:0 2px 5px rgba(0,0,0,0.2);}
 .card{background:#fff;margin:15px;padding:15px;border-radius:12px;box-shadow:0 4px 8px rgba(0,0,0,0.1);}
-h2{color:#116530}
-input,select{width:100%;padding:10px;margin:8px 0;border-radius:10px;border:1px solid #aaa}
+h2{color:#116530;margin-bottom:10px;}
+input,select{width:100%;padding:10px;margin:8px 0;border-radius:10px;border:1px solid #aaa;}
 button{width:100%;padding:12px;background:#28a745;color:white;border:none;border-radius:10px;font-size:16px;cursor:pointer;margin-top:5px;transition:0.3s;}
 button:hover{background:#3ac06d;}
 .total{background:#1b7f6c;color:#fff;text-align:center;padding:10px;border-radius:10px;margin-top:10px;font-weight:bold;}
@@ -20,8 +20,9 @@ button:hover{background:#3ac06d;}
 </style>
 </head>
 <body>
+
 <header>
-أهلآ بكم في المستوصف البيطري في السدير<br>
+أهلًا بكم في المستوصف البيطري في السدير<br>
 اعداد البرنامج: الدكتور ضياء حسين
 </header>
 
@@ -30,67 +31,62 @@ button:hover{background:#3ac06d;}
 <input type="text" id="breeder" placeholder="اسم المربي (اختياري)">
 <select id="drug">
 <option value="">اختر الدواء</option>
-<option value="جنتامايسين|3750|50">جنتامايسين</option>
-<option value="تايلوسين|3700|50">تايلوسين</option>
-<option value="انروفلوكساسين|1900|50">انروفلوكساسين</option>
-<option value="اوكسى تتراسيكلين|2725|50">اوكسى تتراسيكلين</option>
-<option value="خافض|2250|0">خافض</option>
-<option value="بلوك املاح|2500|50">بلوك املاح</option>
-<option value="كالسيوم|4250|50">كالسيوم</option>
-<option value="سبري جروح|2300|500">سبري جروح</option>
-<option value="مضاد تخمه|1650|150">مضاد تخمه</option>
-<option value="مضاد نفاخ|2300|150">مضاد نفاخ</option>
-<option value="تيوب ضرع|1250|250">تيوب ضرع</option>
-<option value="مرهم كبريت|1650|150">مرهم كبريت</option>
-<option value="سرنج 10 مل|100|0">سرنج 10 مل</option>
-<option value="سرنج 20 مل|145|0">سرنج 20 مل</option>
-<option value="ايفرمكتين|1500|0">ايفرمكتين</option>
-<option value="باور اون|9500|0">باور اون</option>
-<option value="تجريع|7750|0">تجريع</option>
-<option value="بارفكوين|9850|25">بارفكوين</option>
-<option value="نص باور اون|4750|0">نص باور اون</option>
+<option value="3750|50|جنتامايسين">جنتامايسين</option>
+<option value="3700|50|تايلوسين">تايلوسين</option>
+<option value="2725|50|اوكسي تتراسيكلين">اوكسي تتراسيكلين</option>
+<option value="1900|50|انروفلوكساسين">انروفلوكساسين</option>
+<option value="2250|50|خافض">خافض</option>
+<option value="2500|50|بلوك املاح">بلوك املاح</option>
+<option value="4250|50|كالسيوم">كالسيوم</option>
+<option value="2300|500|سبري جروح">سبري جروح</option>
+<option value="1650|150|مضاد تخمه">مضاد تخمه</option>
+<option value="2300|150|مضاد نفاخ">مضاد نفاخ</option>
+<option value="1250|250|تيوب ضرع">تيوب ضرع</option>
+<option value="1650|150|مرهم كبريت">مرهم كبريت</option>
+<option value="100|0|سرنج 10 مل">سرنج 10 مل</option>
+<option value="145|0|سرنج 20 مل">سرنج 20 مل</option>
+<option value="1500|100|ايفرمكتين">ايفرمكتين</option>
+<option value="9500|10|باور اون">باور اون</option>
+<option value="7750|10|تجريع">تجريع</option>
+<option value="9850|25|بارفكوين">بارفكوين</option>
+<option value="4750|5|نص باور اون">نص باور اون</option>
 </select>
-<input type="number" id="drugQty" placeholder="عدد الدواء (يمكن 0)" min="0">
+<input type="number" id="drugQty" placeholder="عدد الدواء" min="0">
 <select id="drugAnimalType">
-<option value="">نوع الحيوان</option>
+<option value="">اختر نوع الحيوان</option>
 <option>أبقار</option>
 <option>جاموس</option>
 <option>أغنام</option>
 <option>ماعز</option>
 </select>
-<input type="number" id="animalQty" placeholder="عدد الحيوان (يمكن 0)" min="0">
+<input type="number" id="animalQty" placeholder="عدد الحيوان" min="0">
 <select id="drugLocation">
-<option value="">اختر الموقع</option>
-<option value="داخل المستوصف">داخل المستوصف</option>
-<option value="خارج المستوصف">خارج المستوصف</option>
-</select>
-<button id="addDrugBtn">إضافة دواء</button>
-<div id="drugList"></div>
-<div class="total" id="drugBase">مجموع الأدوية: 0</div>
-<div class="total" id="drugAdmin">التحميلات الإدارية: 0</div>
-<div class="total" id="drugService">خدمات الدواء: 0</div>
-<div class="total" id="drugCard">البطاقة والخروجيه: 0</div>
-<div class="total final" id="drugFinal">المجموع النهائي للأدوية: 0</div>
-</div>
-
-<div class="card">
-<h2>التلقيح الاصطناعي (أبقار)</h2>
-<input type="number" id="aiQty" placeholder="عدد الأبقار" min="0">
-<label>عدد الكفوف</label><input type="number" id="gloves" placeholder="عدد الكفوف" min="0">
-<label>عدد القسطرة</label><input type="number" id="catheter" placeholder="عدد القسطرة" min="0">
-<label>عدد القصبة</label><input type="number" id="rod" placeholder="عدد القصبة" min="0">
-<label>كمية النايتروجين</label><input type="number" id="nitrogen" placeholder="كمية النايتروجين" min="0">
-<select id="aiLocation">
 <option value="">اختر الموقع</option>
 <option value="0">داخل المستوصف</option>
 <option value="1000">خارج المستوصف</option>
 </select>
-<button id="addAIBtn">إضافة تلقيح</button>
+<button onclick="addDrug()">إضافة دواء</button>
+<div id="drugList"></div>
+<div class="total" id="drugBase">مجموع الأدوية: 0</div>
+<div class="total" id="drugAdmin">التحميلات الإدارية: 0</div>
+<div class="total" id="drugService">خدمات الدواء: 0</div>
+<div class="total" id="drugCardExit">البطاقة والخروجيه: 0</div>
+<div class="total final" id="drugFinal">المجموع النهائي للأدوية: 0</div>
+</div>
+
+<div class="card">
+<h2>التلقيح الاصطناعي</h2>
+<input type="number" id="aiQty" placeholder="عدد الأبقار/الجاموس/الأغنام/الماعز" min="0">
+<input type="number" id="gloves" placeholder="عدد الكفوف" min="0">
+<input type="number" id="catheter" placeholder="عدد القسطرة" min="0">
+<input type="number" id="rod" placeholder="عدد القصبة" min="0">
+<input type="number" id="nitrogen" placeholder="كمية النايتروجين" min="0">
+<select id="aiLocation">
+<option value="0">داخل المستوصف</option>
+<option value="1000">خارج المستوصف</option>
+</select>
+<button onclick="addAI()">إضافة تلقيح</button>
 <div id="aiList"></div>
-<div class="total" id="aiBase">مجموع المستلزمات: 0</div>
-<div class="total" id="aiAdmin">التحميلات الإدارية: 0</div>
-<div class="total" id="aiCowCost">أجور الأبقار: 0</div>
-<div class="total" id="aiService">الخدمات: 0</div>
 <div class="total final" id="aiFinal">المجموع النهائي للتلقيح: 0</div>
 </div>
 
@@ -103,191 +99,141 @@ button:hover{background:#3ac06d;}
 <option value="1000">القاعة الواحدة</option>
 </select>
 <input type="number" id="transQty" placeholder="العدد" min="0">
-<button id="addTransBtn">إضافة نقل</button>
+<button onclick="addTransport()">إضافة نقل</button>
 <div id="transList"></div>
-<div class="total" id="transTotal">مجموع النقل: 0</div>
+<div class="total final" id="transFinal">المجموع النهائي للنقل: 0</div>
 </div>
 
 <div class="card">
-<button id="saveBtn">💾 حفظ الوصفة</button>
+<button onclick="savePrescription()">💾 حفظ الوصفة</button>
 </div>
 
 <div class="card">
 <h2>الوصفات المحفوظة</h2>
-<button id="clearBtn" style="background:red;color:white;padding:8px;border:none;border-radius:6px;margin-bottom:5px;cursor:pointer">حذف جميع الوصفات</button>
+<button onclick="clearAll()" style="background:red;color:white;padding:8px;border:none;border-radius:6px;margin-bottom:5px;cursor:pointer">حذف جميع الوصفات</button>
 <div id="savedList"></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded',function(){
-  let drugs=[], transports=[], aiData=null;
-  let drugFinalTotal=0, transportFinalTotal=0, aiFinalTotal=0;
+let drugs=[], aiData=null, transports=[];
+let drugFinalTotal=0, aiFinalTotal=0, transportFinalTotal=0;
 
-  const addDrugBtn=document.getElementById("addDrugBtn");
-  const addAIBtn=document.getElementById("addAIBtn");
-  const addTransBtn=document.getElementById("addTransBtn");
-  const saveBtn=document.getElementById("saveBtn");
-  const clearBtn=document.getElementById("clearBtn");
+function addDrug(){
+  let breeder=document.getElementById("breeder").value;
+  let select = document.getElementById("drug");
+  let qty = parseInt(document.getElementById("drugQty").value) || 0;
+  let animalType = document.getElementById("drugAnimalType").value;
+  let animalQty = parseInt(document.getElementById("animalQty").value) || 0;
+  let location = parseInt(document.getElementById("drugLocation").value) || 0;
+  if(!select.value || !animalType){alert("اختر الدواء ونوع الحيوان"); return;}
+  let [price,service,name] = select.value.split("|");
+  price=parseInt(price); service=parseInt(service);
+  drugs.push({breeder,name,price,service,qty,animalType,animalQty,location});
+  showDrugs(); calculateDrugs();
+}
 
-  function updateGrandTotal(){
-    let grand = drugFinalTotal + transportFinalTotal + aiFinalTotal;
-    console.log("المجموع الكلي:",grand);
-  }
-
-  function calculate(){
-    let base=0, serviceTotal=0;
-    drugs.forEach(d=>{
-      base+=d.price*d.qty;
-      serviceTotal+=d.service*d.qty*d.animalQty;
-    });
-    let admin=Math.ceil(base/5000)*50;
-    let card=0;
-    let anyOutside=drugs.some(d=>d.location=="خارج المستوصف");
-    card=500; if(anyOutside) card+=1000;
-    let finalDrug=base+serviceTotal+admin+card;
-    drugFinalTotal=finalDrug;
-    document.getElementById("drugBase").innerText="مجموع الأدوية: "+base;
-    document.getElementById("drugAdmin").innerText="التحميلات الإدارية: "+admin;
-    document.getElementById("drugService").innerText="خدمات الدواء: "+serviceTotal;
-    document.getElementById("drugCard").innerText="البطاقة والخروجيه: "+card;
-    document.getElementById("drugFinal").innerText="المجموع النهائي للأدوية: "+finalDrug;
-    updateGrandTotal();
-  }
-
-  function showDrugs(){
-    let list=document.getElementById("drugList");
-    list.innerHTML="";
-    drugs.forEach((d,i)=>{
-      list.innerHTML+=`<div class="saved">
-      ${d.breeder?d.breeder+' - ':''}${d.name} × ${d.qty} | نوع الحيوان: ${d.animalType} | عدد الحيوان: ${d.animalQty} | الموقع: ${d.location}
-      <button class="deleteBtn" data-index="${i}">حذف</button>
-      </div>`;
-    });
-    document.querySelectorAll('.deleteBtn').forEach(btn=>{
-      btn.addEventListener('click',function(){
-        drugs.splice(this.getAttribute('data-index'),1);
-        showDrugs(); calculate();
-      });
-    });
-  }
-
-  addDrugBtn.addEventListener('click',function(){
-    let select=document.getElementById("drug");
-    let qty=parseInt(document.getElementById("drugQty").value)||0;
-    let animalType=document.getElementById("drugAnimalType").value;
-    let animalQty=parseInt(document.getElementById("animalQty").value)||0;
-    let location=document.getElementById("drugLocation").value;
-    let breeder=document.getElementById("breeder").value;
-    if(!select.value || !animalType){alert("اكمل البيانات"); return;}
-    let [name,price,service]=select.value.split("|");
-    price=parseInt(price); service=parseInt(service);
-    drugs.push({breeder,name,price,service,qty,animalType,animalQty,location});
-    document.getElementById("drugQty").value="";
-    document.getElementById("animalQty").value="";
-    showDrugs(); calculate();
+function showDrugs(){
+  let list = document.getElementById("drugList");
+  list.innerHTML="";
+  drugs.forEach((d,i)=>{
+    list.innerHTML+=`<div class="saved">
+      ${d.breeder? d.breeder+" - " : ""}${d.name} × ${d.qty} | نوع الحيوان: ${d.animalType} | عدد الحيوان: ${d.animalQty} | الموقع: ${d.location>0?"خارج المستوصف":"داخل المستوصف"}
+      <button class="deleteBtn" onclick="removeDrug(${i})">حذف</button>
+    </div>`;
   });
+}
 
-  function showAI(){
-    let list=document.getElementById("aiList");
-    if(!aiData){list.innerHTML=""; return;}
-    list.innerHTML=`<div class="saved">
-    تلقيح ${aiData.qty} بقرة | كفوف: ${aiData.gloves} | قسطرة: ${aiData.catheter} | قصبة: ${aiData.rod} | نيتروجين: ${aiData.nitrogen}
-    <button class="deleteBtn" data-type="ai">حذف</button></div>`;
-    list.querySelector('.deleteBtn').addEventListener('click',function(){
-      aiData=null; showAI(); aiFinalTotal=0; document.getElementById("aiBase").innerText="مجموع المستلزمات: 0"; document.getElementById("aiFinal").innerText="المجموع النهائي للتلقيح: 0"; updateGrandTotal();
-    });
-  }
+function removeDrug(i){drugs.splice(i,1); showDrugs(); calculateDrugs();}
 
-  addAIBtn.addEventListener('click',function(){
-    let qty=parseInt(document.getElementById("aiQty").value)||0;
-    let gloves=parseInt(document.getElementById("gloves").value)||0;
-    let catheter=parseInt(document.getElementById("catheter").value)||0;
-    let rod=parseInt(document.getElementById("rod").value)||0;
-    let nitrogen=parseInt(document.getElementById("nitrogen").value)||0;
-    let location=parseInt(document.getElementById("aiLocation").value)||0;
-    if(!qty){alert("ادخل عدد الأبقار"); return;}
-    let perCowItems=(gloves*46)+(catheter*65)+(rod*1100)+(nitrogen*450);
-    let admin=Math.ceil(perCowItems/5000)*50;
-    let cowCost=1000*qty;
-    let card=location;
-    let final=perCowItems+admin+cowCost+card;
-    aiData={qty,gloves,catheter,rod,nitrogen,location,final};
-    document.getElementById("aiBase").innerText="مجموع المستلزمات: "+perCowItems;
-    document.getElementById("aiFinal").innerText="المجموع النهائي للتلقيح: "+final;
-    aiFinalTotal=final;
-    showAI(); updateGrandTotal();
+function calculateDrugs(){
+  let base=0, admin=0, serviceTotal=0, cardExit=500;
+  let serviceFlag=false;
+  drugs.forEach(d=>{
+    base += d.price*d.qty;
+    // خدمات الدواء حسب عدد الحيوان
+    serviceTotal += d.animalQty*d.service;
+    if(d.location>0) serviceFlag=true;
   });
+  admin = Math.ceil(base/5000)*50;
+  if(!serviceFlag) cardExit=500;
+  else cardExit+=1000;
+  drugFinalTotal = base + admin + serviceTotal + cardExit;
+  document.getElementById("drugBase").innerText="مجموع الأدوية: "+base;
+  document.getElementById("drugAdmin").innerText="التحميلات الإدارية: "+admin;
+  document.getElementById("drugService").innerText="خدمات الدواء: "+serviceTotal;
+  document.getElementById("drugCardExit").innerText="البطاقة والخروجيه: "+cardExit;
+  document.getElementById("drugFinal").innerText="المجموع النهائي للأدوية: "+drugFinalTotal;
+}
 
-  function showTrans(){
-    let list=document.getElementById("transList");
-    list.innerHTML="";
-    transports.forEach((t,i)=>{
-      list.innerHTML+=<div class="saved">${t.name} × ${t.qty} <button class="deleteBtn" data-index="${i}">حذف</button></div>;
-    });
-    document.querySelectorAll('#transList .deleteBtn').forEach(btn=>{
-      btn.addEventListener('click',function(){
-        transports.splice(this.getAttribute('data-index'),1); showTrans(); calculateTrans();
-      });
-    });
-  }
+function addAI(){
+  let qty=parseInt(document.getElementById("aiQty").value)||0;
+  let gloves=parseInt(document.getElementById("gloves").value)||0;
+  let catheter=parseInt(document.getElementById("catheter").value)||0;
+  let rod=parseInt(document.getElementById("rod").value)||0;
+  let nitrogen=parseInt(document.getElementById("nitrogen").value)||0;
+  let location=parseInt(document.getElementById("aiLocation").value)||0;
+  let final = qty*1000 + gloves*46 + catheter*65 + rod*1100 + nitrogen*450 + location;
+  aiFinalTotal = final;
+  document.getElementById("aiList").innerHTML=<div class="saved">تلقيح ${qty} حيوان<button class="deleteBtn" onclick="removeAI()">حذف</button></div>;
+  document.getElementById("aiFinal").innerText="المجموع النهائي للتلقيح: "+aiFinalTotal;
+}
 
-  function calculateTrans(){
-    let total=0;
-    transports.forEach(t=>{total+=t.price*t.qty+500;});
-    transportFinalTotal=total;
-    document.getElementById("transTotal").innerText="مجموع النقل: "+total;
-    updateGrandTotal();
-  }
+function removeAI(){aiData=null; aiFinalTotal=0; document.getElementById("aiList").innerHTML=""; document.getElementById("aiFinal").innerText="المجموع النهائي للتلقيح: 0";}
 
-  addTransBtn.addEventListener('click',function(){
-    let select=document.getElementById("transport");
-    let qty=parseInt(document.getElementById("transQty").value)||0;
-    if(!select.value || qty<=0){alert("اكمل البيانات"); return;}
-    let name=select.options[select.selectedIndex].text;
-    transports.push({name:name,price:parseInt(select.value),qty});
-    document.getElementById("transQty").value="";
-    showTrans(); calculateTrans();
+function addTransport(){
+  let type=document.getElementById("transport").value;
+  let name=document.getElementById("transport").options[document.getElementById("transport").selectedIndex].text;
+  let qty=parseInt(document.getElementById("transQty").value)||0;
+  if(!type || !qty) return;
+  transports.push({name,type:parseInt(type),qty});
+  showTransport();
+}
+
+function showTransport(){
+  let html="";
+  let transTotal=0;
+  transports.forEach((t,i)=>{
+    let price = t.type* t.qty + 500; // ثمن البطاقة
+    transTotal += price;
+    html+=<div class="saved">${t.name} × ${t.qty} | بطاقة + النقل: ${price} <button class="deleteBtn" onclick="removeTransport(${i})">حذف</button></div>;
   });
+  document.getElementById("transList").innerHTML=html;
+  transportFinalTotal=transTotal;
+  document.getElementById("transFinal").innerText="المجموع النهائي للنقل: "+transportFinalTotal;
+}
 
-  saveBtn.addEventListener('click',function(){
-    let saved=JSON.parse(localStorage.getItem("prescriptions")||"[]");
-    let data={drugs,transports,aiData,date:new Date().toLocaleString()};
-    saved.push(data);
-    localStorage.setItem("prescriptions",JSON.stringify(saved));
-    showSaved(); alert("تم حفظ الوصفة ✅");
+function removeTransport(i){transports.splice(i,1); showTransport();}
+
+function savePrescription(){
+  let saved=JSON.parse(localStorage.getItem("prescriptions")||"[]");
+  saved.push({
+    drugs,transports,aiFinalTotal,date:new Date().toLocaleString()
   });
-
-  function showSaved(){
-    let saved=JSON.parse(localStorage.getItem("prescriptions")||"[]");
-    let list=document.getElementById("savedList");
-    list.innerHTML="";
-    saved.forEach((s,i)=>{
-      list.innerHTML+=`<div class="saved">
-      تاريخ: ${s.date}<br>
-      <b>الأدوية:</b> ${s.drugs.map(d=>d.name+" × "+d.qty).join(", ")}<br>
-      <b>النقل:</b> ${s.transports.map(t=>t.name+" × "+t.qty).join(", ")}<br>
-      <b>التلقيح:</b> ${s.aiData? "عدد "+s.aiData.qty : "لا يوجد"}<br>
-      <button class="deleteBtn" data-index="${i}">حذف</button>
-      </div>`;
-    });
-    document.querySelectorAll('#savedList .deleteBtn').forEach(btn=>{
-      btn.addEventListener('click',function(){
-        let saved=JSON.parse(localStorage.getItem("prescriptions")||"[]");
-        saved.splice(this.getAttribute('data-index'),1);
-        localStorage.setItem("prescriptions",JSON.stringify(saved));
-        showSaved();
-      });
-    });
-  }
-
-  clearBtn.addEventListener('click',function(){
-    if(confirm("هل تريد حذف جميع الوصفات؟")){
-      localStorage.removeItem("prescriptions"); showSaved();
-    }
-  });
-
+  localStorage.setItem("prescriptions",JSON.stringify(saved));
+  alert("تم حفظ الوصفة ✅");
   showSaved();
-});
+}
+
+function showSaved(){
+  let saved=JSON.parse(localStorage.getItem("prescriptions")||"[]");
+  let html="";
+  saved.forEach((s,i)=>{
+    html+=`<div class="saved">الوصفة ${i+1} - التاريخ: ${s.date}<br>
+    أدوية: ${s.drugs.map(d=>d.name+"×"+d.qty).join(", ")}<br>
+    التلقيح: ${s.aiFinalTotal}<br>
+    النقل: ${s.transports.map(t=>t.name+"×"+t.qty).join(", ")}<br>
+    <button class="deleteBtn" onclick="deleteSaved(${i})">حذف</button>
+    </div>`;
+  });
+  document.getElementById("savedList").innerHTML=html;
+}
+
+function deleteSaved(i){let saved=JSON.parse(localStorage.getItem("prescriptions")||"[]"); saved.splice(i,1); localStorage.setItem("prescriptions",JSON.stringify(saved)); showSaved();}
+
+function clearAll(){if(confirm("هل تريد حذف جميع الوصفات؟")){localStorage.removeItem("prescriptions"); showSaved();}}
+
+showSaved();
 </script>
 </body>
 </html>
