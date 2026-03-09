@@ -200,7 +200,10 @@ let admin=Math.ceil(perCow/5000)*50;
 let card=500;
 let final=perCow+cowCost+admin+exit+card;
 aiData={qty,rod,rodCost,catheter,catheterCost,gloves,glovesCost,nitrogen,nitrogenCost,exit,cowCost,admin,card,final};
-document.getElementById("aiList").innerHTML=`<div class="saved">
+document.getElementById("aiList").innerHTML="";
+let div=document.createElement("div");
+div.className="saved";
+div.innerHTML=`
 نوع التلقيح: أبقار<br>
 القصبة: ${rod} × 1100 = ${rodCost}<br>
 القسطرة: ${catheter} × 65 = ${catheterCost}<br>
@@ -208,8 +211,11 @@ document.getElementById("aiList").innerHTML=`<div class="saved">
 النايتروجين: ${nitrogen} × 450 = ${nitrogenCost}<br>
 الموقع: ${exit>0?"خارج المستوصف":"داخل المستوصف"}<br>
 خدمات التلقيح: ${cowCost}
-<button class="deleteBtn" onclick="removeAI()">حذف</button>
-</div>`;
+<button class="deleteBtn">حذف</button>`;
+document.getElementById("aiList").appendChild(div);
+div.querySelector(".deleteBtn").addEventListener("click", ()=>{
+removeAI();
+});
 document.getElementById("aiBase").innerText="مجموع المستلزمات: "+perCow;
 document.getElementById("aiAdmin").innerText="التحميلات الإدارية: "+admin;
 document.getElementById("aiCowCost").innerText="خدمات التلقيح: "+cowCost;
@@ -222,6 +228,17 @@ document.getElementById("catheter").value="";
 document.getElementById("rod").value="";
 document.getElementById("nitrogen").value="";
 document.getElementById("aiLocation").value="";
+}
+
+function removeAI(){
+aiData=null;
+document.getElementById("aiList").innerHTML="";
+document.getElementById("aiBase").innerText="مجموع المستلزمات: 0";
+document.getElementById("aiAdmin").innerText="التحميلات الإدارية: 0";
+document.getElementById("aiCowCost").innerText="خدمات التلقيح: 0";
+document.getElementById("aiExit").innerText="خروجية طبيب: 0";
+document.getElementById("aiCard").innerText="بطاقة معالجة: 500";
+document.getElementById("aiFinal").innerText="المجموع النهائي للتلقيح: 0";
 }
 
 // --- النقل ---
