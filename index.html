@@ -101,8 +101,13 @@ if(["جنتامايسين","تايلوسين","انروفلوكساسين","أو
     drugService = 50 * (animalQty || 0);
 } 
 else if(name==="بلوك أملاح") {
-    if((animalQty || 0) < 5) drugService = 150; // أقل من 5 خدمات شاملة
-    else drugService = 50 * (animalQty || 0);   // 5 فما فوق لكل حيوان 50
+    let qty = animalQty || 0;
+
+    if(qty < 5){
+        drugService = qty * 150;   // لكل حيوان 150
+    } else {
+        drugService = qty * 50;    // لكل حيوان 50
+    }
 }
 else if(name==="تيوب ضرع") {
     drugService = 250 * (animalQty || 0);
