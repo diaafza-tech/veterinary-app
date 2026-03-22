@@ -112,15 +112,19 @@ else if(name==="بلوك أملاح") {
 else if(name==="تيوب ضرع") {
     drugService = 250 * (animalQty || 0);
 }
-else if(["مضاد تخمه","مضاد نفاخ"].includes(name)) {
-    drugService = 150 * (animalQty || 0);
+else if(["مضاد تخمه","مضاد نفاخ","مرهم كبريت"].includes(name)) {
+    let qty = animalQty || 0;
+
+    if(qty < 5){
+        drugService = qty * 150;   // أقل من 5 → لكل حيوان 150
+    } else {
+        drugService = qty * 50;    // 5 فما فوق → لكل حيوان 50
+    }
 }
 else if(name==="سبري جروح") {
     drugService = 500 * (animalQty || 0);
 }
-else if(name==="مرهم كبريت") {
-    drugService = 150 * (animalQty || 0);
-}
+
 else if(name==="ايفرمكتين") {
     drugService = (["أبقار","جاموس"].includes(animalType)?100:25) * (animalQty || 0);
 }
